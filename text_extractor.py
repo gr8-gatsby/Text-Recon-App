@@ -32,10 +32,6 @@ def main_func():
         initialdir='/',
         filetypes=filetypes)
 
-    showinfo(
-        title='Selected File',
-        message=filename
-    )
     print(filename)
 
     image = filename
@@ -53,31 +49,15 @@ def main_func():
     translator = Translator()
     detection = translator.detect(out_below)
 
-    print("Language:", constants.LANGUAGES[detection.lang], f'({detection.lang})')
-    print("Confidence:", detection.confidence)
-
     language_destination = 'en'
     translation = translator.translate(out_below, language_destination)
     print(translation)
 
-    translation_list = list(set(str(translation).split()[3:-2]))
-    # print(translation_list)
-
-    # original_frame = LabelFrame(root, text='Original Text', font="Verdana 10 bold", labelanchor=N)
-    # original_frame.grid(row=0, column=1, padx=(10, 5), pady=5)
-
-    # original_label = Label(original_frame, text=out_below, font=("Verdana", 10), justify=LEFT)
-    # original_label.grid(row=0, column=1, sticky=W, padx=10, pady=(15, 5))
-
-    # translated_frame = LabelFrame(root, text='Original Text', font="Verdana 10 bold", labelanchor=N)
-    # translated_frame.grid(row=1, column=1, padx=(10, 5), pady=5)
-
-    # translated_label = Label(translated_frame, text=str(translation), font=("Verdana", 10), justify=LEFT)
-    # translated_label.grid(row=0, column=1, sticky=W, padx=10, pady=(15, 5))
-
     export_file = open('export_file.txt', 'w')
+    export_file.write('Original Text\n-------------\n')
     export_file.write(out_below)
-    export_file.write(str(translation))
+    export_file.write('\n\n\nTranslation\n-----------\n')
+    export_file.write(translation.text)
     webbrowser.open("export_file.txt")
 
     return filename
